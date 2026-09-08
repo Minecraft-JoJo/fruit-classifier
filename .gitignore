@@ -13,6 +13,7 @@ dist/
 *.pth
 *.pt
 *.onnx
+*.zip
 save/
 
 # 训练日志（可随时重新生成）
