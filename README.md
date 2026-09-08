@@ -16,7 +16,7 @@ fruit-classifier/
 └── .gitignore
 ```
 
-> 数据文件体积大（约 5 GB / 7.2 万张），**不入 git 仓库**，请单独存放（本机示例放于仓库外的 `BIG/` 目录）。
+> 数据文件体积大（约 5 GB / 7.2 万张），储放在modelscope
 
 ## 数据集
 
@@ -31,33 +31,51 @@ data/
 └── single/               # 单张预测用图片（banana.jpg 等）
 ```
 
-原始数据已上传至 ModelScope 数据集仓库（git-lfs / zip 两种方式均可下载）：
-
-**https://modelscope.cn/datasets/z2105372313/fruit-classifier**
-
-> ⚠️ 类别名中存在数据集原始拼写（如 `Chilli Peper`、`Jalepeno`、`Raddish`、`Sweetpotato`），
-> 它们是**文件夹名本身**，加载与改名时务必保持一致，否则 ImageFolder 会匹配不到。
 
 ## 环境安装
 
-```bash
-pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128
-```
 
+
+
+## 快速开始
+
+### 1，cd ./<自己的空文件夹>
+
+### 2，下载源码和安装环境
+```bash
+git clone https://github.com/Minecraft-JoJo/fruit-classifier.git #克隆仓库
+pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128 #环境安装
+
+```
 - 依赖中 `torch==2.11.0+cu128`、`torchvision==0.26.0+cu128` 带 CUDA 12.8 构建号，
   **只存在于 PyTorch 官方源**，因此必须加 `--extra-index-url`。
 - CPU 机器：去掉 `+cu128` 后缀后从默认 PyPI 安装即可。
 - 详细依赖与说明见 `requirements.txt` 内注释。
 
-## 快速开始
 
-### 0. 修改数据路径（重要）
 
-`config.py` 中的 `data_root / val_root / test_root / single_root / save_path` 默认指向作者本机布局
-（`./BIG/...`），**请改为你实际存放数据与权重的位置**。
+### 3，下载数据集和权重（可选）
+```bash
+git lfs install
+mkdir -p BIG/fruit-classifier
+cd BIG
+git clone https://www.modelscope.cn/datasets/z2105372313/fruit-classifier.git #克隆仓库
+cd ..
 
-### 1. 训练
+```
+### 4，(可选)只下载模型权重
 
+```bash
+mkdir -p BIG/fruit-classifier/save
+mkdir -p BIG/fruit-classifier/data/single
+
+modelscope download --dataset z2105372313/fruit-classifier save/checkpoint_all.pth --local_dir ./BIG/fruit-classifier/save/ 
+```
+
+
+
+### 关于py
+### 1，训练
 ```bash
 python train.py
 ```
@@ -81,12 +99,12 @@ python train.py
 ### 2. 测试集评估
 
 ```bash
-python pred.py   # 需将 config.predict_mode 设为 0
+python pred.py   # 下载了数据集，可以将 config.predict_mode 设为 0
 ```
 
-遍历 `test_root` 全部图片，输出整体准确率。
+如果下载了数据集，遍历 `test_root` 全部图片，输出整体准确率。
 
-### 3. 单张图片预测
+### 3. 单张图片预测  预测图片放在BIG/fruit-classifier/data/single内，即可自动检测
 
 ```bash
 python pred.py   # 需将 config.predict_mode 设为 1
@@ -98,37 +116,22 @@ python pred.py   # 需将 config.predict_mode 设为 1
 banana.jpg           -> Banana   (置信度: 0.9999)
 ```
 
-## ⚠️ 类别索引陷阱（务必阅读）
 
-`torchvision.datasets.ImageFolder` 会**按文件夹名的字母序**给类别编号（`Apple`=0, `Avocado`=1, ...），
-而**不是**数据集原始顺序。因此：
-
-- `config.py` 的 `class_names` 必须保持**字母序**（本项目已按字母序排列）；
-- 若改成"原始顺序"，训练本身不受影响，但预测显示的名字会整体错位
-  （典型症状：`banana.jpg -> Jalepeno` 且置信度接近 1.0，其实模型认对了，只是查错了表）；
-- 最稳妥的写法是在预测代码里直接用数据集自带的顺序：
-
-```python
-from torchvision.datasets import ImageFolder
-classes = ImageFolder(root=cfg.data_root).classes   # 与训练时完全一致的字母序
-label   = classes[predicted_idx]
-```
 
 ## 训练结果（参考）
 
-自实现 ResNet（无预训练）训练 30 轮：
+自实现 ResNet（无预训练）训练 40 轮：
 
 | 指标 | 数值 |
 |---|---|
-| 训练集准确率 | ~83.3% |
-| 验证集准确率 | ~82.1%（第 30 轮） |
-| 测试集（同分布） | ~70%+ |
+| 训练集准确率 | ~91.4% |
+| 验证集准确率 | ~87.0%（第 38 轮） |
+| 测试集（同分布） | ~82%+ |
 
 真实网络图片（背景/拍摄风格与训练集差异大）仍存在误判，属数据域差异。
-如需更强的真实场景泛化，建议：使用预训练主干（如 `torchvision` 的 ResNet 预训练权重）、
-扩充真实照片数据、或推理时做多尺度/TTA。
+使用无预训练模型，无迁移学习
 
 ## 相关链接
 
 - ModelScope 数据集（50 类果蔬原图）：https://modelscope.cn/datasets/z2105372313/fruit-classifier
-- ModelScope 模型仓库（代码 + 权重）：https://modelscope.cn/models/z2105372313/fruit-classifier
+
