@@ -1,8 +1,8 @@
 <!-- 头部徽章 -->
 <p align="center">
-  <img src="https://img.shields.io/github/stars/Minecraft-JoJo/cat-dog-classifier?style=social" alt="stars">
-  <img src="https://img.shields.io/github/forks/Minecraft-JoJo/cat-dog-classifier?style=social" alt="forks">
-  <img src="https://img.shields.io/github/license/Minecraft-JoJo/cat-dog-classifier" alt="license">
+  <img src="https://img.shields.io/github/stars/Minecraft-JoJo/fruit-classifier?style=social" alt="stars">
+  <img src="https://img.shields.io/github/forks/Minecraft-JoJo/fruit-classifier?style=social" alt="forks">
+  <img src="https://img.shields.io/github/license/Minecraft-JoJo/fruit-classifier" alt="license">
   <img src="https://img.shields.io/badge/python-3.10%2B-blue" alt="python">
   <img src="https://img.shields.io/badge/PyTorch-2.0%2B-orange" alt="pytorch">
 </p>
