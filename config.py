@@ -18,14 +18,14 @@ class setting:
 
 
     # --- 数据参数 ---
-    data_root = './data/train'       # 数据存放根目录
-    val_root = './data/val'
-    test_root = './data/test'
-    single_root = './data/single'
+    data_root = './BIG/fruit-classifier/data/train'       # 数据存放根目录
+    val_root = './BIG/fruit-classifier/data/val'
+    test_root = './BIG/fruit-classifier/data/test'
+    single_root = './BIG/fruit-classifier/data/single'
 
-    save_path = './save/checkpoint_all.pth'
-    interrupted_save_path1 = './save/interrupted_best_model.pth'
-    interrupted_save_path2 = './save/checkpoint_half.pth'
+    save_path = './BIG/fruit-classifier/save/checkpoint_all.pth'
+    interrupted_save_path1 = './BIG/fruit-classifier/save/interrupted_best_model.pth'
+    interrupted_save_path2 = './BIG/fruit-classifier/save/checkpoint_half.pth'
     log_path = './train_log/train.csv'
 
 
