@@ -1,0 +1,18 @@
+# 安装: pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128
+# git lfs install
+
+# PyTorch 家族 (CUDA 12.8 构建)
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+torchinfo==1.8.0
+# torchaudio==2.11.0+cu128    # 代码未用到, 需要再开
+
+# 运行必需
+numpy
+tqdm
+Pillow
+pandas==3.0.5
+matplotlib==3.11.1
+
+# 上传/管理魔搭仓库用(项目代码不依赖)
+modelscope==1.39.1

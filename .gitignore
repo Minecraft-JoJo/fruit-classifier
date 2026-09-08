@@ -1,0 +1,45 @@
+# ================= Python =================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+*.so
+
+# ============ 训练产物 / 权重 ============
+# 权重文件几十~上百MB，超出 GitHub 100MB 单文件限制，切勿提交
+*.pth
+*.pt
+*.onnx
+save/
+
+# 训练日志（可随时重新生成）
+train_log/
+*.log
+
+# ============== 数据集 ==============
+# 图片数据集体积大，不纳入版本控制
+/data/
+# 如需保留 data/single 里的示例测试图（banana.jpg 等），取消下面两行注释：
+# !data/
+#!data/single/
+
+# ============ 虚拟环境 ============
+.venv/
+venv/
+env/
+ENV/
+
+# ========== IDE / 编辑器 ==========
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ========== 系统 / 其他 ==========
+.DS_Store
+Thumbs.db
+desktop.ini
+.ipynb_checkpoints/
